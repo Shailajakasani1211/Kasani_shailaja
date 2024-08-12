@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Successful</title>
+</head>
+<body ng-app="myApp">
+  <div ng-controller="SuccessController">
+
+  <h1>Registration Successful</h1>
+  <p><strong>Name:</strong> {{ name }}</p>
+  <p><strong>Phone Number:</strong> {{ phone }}</p>
+  <p><strong>Email:</strong> {{ email }}</p>
+  <div ng-repeat="qualification in qualifications">
+      <p><strong>Qualification {{$index + 1}}:</strong> {{ qualification.name }}</p>
+      <p><strong>Year of Passing:</strong> {{ qualification.year }}</p>
+      <p><strong>Percentage/CGPA:</strong> {{ qualification.percentage }}</p>
+  </div>
+  <p><strong>Address:</strong> {{ address }}</p>
+  </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="app.js"></script>
+
+</html>

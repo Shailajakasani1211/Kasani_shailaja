@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="register.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="registrationApp">
+  <div class="form-container" ng-controller="RegistrationController">
+      <form class="registration-form" name="registrationForm" ng-submit="register()" novalidate>
+        <legend> <b>Login Form</b></legend><br>
+        <label class="form-label" for="name">Name:</label>
+        <input type="text" id="name" name="name" ng-model="user.name" required ng-pattern="/^[a-zA-Z][a-zA-Z0-9_]+$/" ng-minlength="3" ng-maxlength="20">
+        <span ng-show="registrationForm.name.$touched && registrationForm.name.$invalid">
+          <span ng-show="registrationForm.name.$error.required">Name is required.</span>
+          <span ng-show="registrationForm.name.$error.minlength">Name is too short.</span>
+          <span ng-show="registrationForm.name.$error.maxlength">Name is too long.</span>
+          <span ng-show="registrationForm.name.$error.pattern">Name should start with letters only and also contain letters, numbers, and underscores.</span>
+        </span><br><br>
+        <label class="form-label" for="phone">Phone No:</label>
+        <input type="tel" id="phone" name="phone" ng-model="user.phone" required ng-pattern="/^\d{10}$/">
+        <span ng-show="registrationForm.phone.$touched && registrationForm.phone.$invalid">
+          <span ng-show="registrationForm.phone.$error.required">Phone number is required.</span>
+          <span ng-show="registrationForm.phone.$error.pattern">Phone number must be 10 digits long.</span>
+        </span><br><br>
+        <label class="form-label" for="email">Email:</label>
+        <input type="email" id="email" name="email" ng-model="user.email" required>
+        <span ng-show="registrationForm.email.$touched && registrationForm.email.$invalid">
+          <span ng-show="registrationForm.email.$error.required">Email is required.</span>
+          <span ng-show="registrationForm.email.$error.email">Invalid email address.</span>
+        </span><br><br>
+        <div ng-repeat="qualification in user.qualifications track by $index">
+        <label class="form-label" for="qualification{{$index}}">Qualification :</label>
+            <select id="qualification{{$index}}" name="qualification{{$index}}" ng-model="qualification.name" required>
+              <option value="">Qualification</option>
+              <option value="Bachelors">Bachelors</option>
+              <option value="Inter/Diploma">Inter/Diploma</option>
+              <option value="SSC">SSC</option>
+            </select>
+          <label for="year{{$index}}">Year of Passing:</label>
+            <select id="year{{$index}}" name="year{{$index}}" ng-model="qualification.year" required>
+              <option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+           </select>
+          <label for="percentage{{$index}}">Percentage/CGPA:</label>
+            <input type="text" id="percentage{{$index}}" name="percentage{{$index}}" ng-model="qualification.percentage" required 
+             ng-pattern="/^(?:100|[1-9]?\d(?:\.\d{1,2})?)$/" placeholder="Enter Percentage or CGPA">
+              <span ng-show="registrationForm['percentage' + $index].$touched && registrationForm['percentage' + $index].$invalid">
+                <span ng-show="registrationForm['percentage' + $index].$error.required">Percentage/CGPA is required.</span>
+                <span ng-show="registrationForm['percentage' + $index].$error.pattern">Enter a valid percentage or CGPA.</span>
+              </span>
+          <button type="button" ng-click="removeQualification($index)" ng-if="user.qualifications.length > 1">-</button>
+          <button type="button" ng-click="addQualification()" ng-disabled="user.qualifications.length >= 3">+</button>
+        </div><br>
+        <label class="form-label" for="address">Address:</label>
+          <textarea id="address" name="address" ng-model="user.address" required ng-minlength="10" ng-maxlength="200"></textarea>
+            <span ng-show="registrationForm.address.$touched && registrationForm.address.$invalid">
+              <span ng-show="registrationForm.address.$error.required">Address is required.</span>
+              <span ng-show="registrationForm.address.$error.minlength">Address must be at least 10 characters long.</span>
+              <span ng-show="registrationForm.address.$error.maxlength">Address must be less than 200 characters long.</span>
+            </span><br><br>
+        <button class="submit-container" type="submit" ng-disabled="registrationForm.$invalid">Register</button>
+      </form>
+    </div>   
+  <script src="app.js"></script>
+</body>
+</html>
